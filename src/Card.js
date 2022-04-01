@@ -1,4 +1,4 @@
-export const Card = ({task, moveCardLeft, moveCardRight}) => {
+export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol}) => {
     const {id, name, description, status, priority} = task
     console.log('in card ', id)
     return (
@@ -15,8 +15,8 @@ export const Card = ({task, moveCardLeft, moveCardRight}) => {
                 </div>
 
                 <p className="card-text">{description}</p>
-                <button className="btn btn-primary" type="submit" onClick={() => moveCardLeft(id)}>←</button>
-                <button className="btn btn-primary" type="submit" onClick={() => moveCardRight(id)}>→</button>
+                <button className="btn btn-primary" type="submit" onClick={() => moveCardLeft(id)} disabled={firstCol}>←</button>
+                <button className="btn btn-primary" type="submit" onClick={() => moveCardRight(id)} disabled={lastCol}>→</button>
                 <button className="btn btn-primary" type="submit">Delete</button>
                 <button className="btn btn-primary" type="submit">Update</button>
             </div>

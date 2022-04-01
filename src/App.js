@@ -89,8 +89,9 @@ function App() {
         <div className="App container">
             <h1>Kanban Board</h1>
             <div className="row align-items-start">
-            {statuses.map((status) => {
-                return <Column status={status} tasks={tasks} moveCardLeft={moveCardLeft} moveCardRight={moveCardRight} />
+            {statuses.map((status, index) => {
+                return <Column status={status} tasks={tasks} moveCardLeft={moveCardLeft} moveCardRight={moveCardRight}
+                               lastCol={index === statuses.length - 1} firstCol={index === 0}/>
             })}
             </div>
 
