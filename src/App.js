@@ -2,6 +2,7 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {v4 as uuidv4} from 'uuid'
 import './App.css';
 import {useState} from "react";
+import {MAX_PRIORITY, MIN_PRIORITY} from "./const";
 import {Column} from "./Column";
 
 const initialStatuses = [
@@ -85,13 +86,28 @@ function App() {
         setTasks(updatedTask)
     }
 
+    const increasePriority = (id) => {
+        const updatedTask = tasks.map(task => {
+            return (task.id === id) ? {...task, priority: (task.priority >= MAX_PRIORITY) ? MAX_PRIORITY : task.priority + 1}: task
+        })
+        setTasks(updatedTask)
+    }
+
+    const decreasePriority = (id) => {
+        const updatedTask = tasks.map(task => {
+            return (task.id === id) ? {...task, priority: (task.priority <= MIN_PRIORITY) ? MIN_PRIORITY :  task.priority - 1}: task
+        })
+        setTasks(updatedTask)
+    }
+
     return (
         <div className="App container">
             <h1>Kanban Board</h1>
             <div className="row align-items-start">
             {statuses.map((status, index) => {
                 return <Column status={status} tasks={tasks} moveCardLeft={moveCardLeft} moveCardRight={moveCardRight}
-                               lastCol={index === statuses.length - 1} firstCol={index === 0}/>
+                               lastCol={index === statuses.length - 1} firstCol={index === 0}
+                               decreasePriority={decreasePriority} increasePriority={increasePriority}/>
             })}
             </div>
 
