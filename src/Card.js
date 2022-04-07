@@ -1,6 +1,7 @@
 import {MAX_PRIORITY, MIN_PRIORITY} from "./const";
 
-export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decreasePriority, increasePriority}) => {
+export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decreasePriority, increasePriority,
+                        setShowModal, setShowModalDelete, getTaskById}) => {
     const {id, name, description, status, priority} = task
 
     return (
@@ -28,8 +29,14 @@ export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decr
                 <button className="btn btn-primary" type="submit" onClick={() => moveCardRight(id)}
                         disabled={lastCol}>→
                 </button>
-                <button className="btn btn-primary" type="submit">Delete</button>
-                <button className="btn btn-primary" type="submit">Update</button>
+                <button className="btn btn-primary" type="button" onClick={() => {
+                    getTaskById(id)
+                    setShowModalDelete(true)
+                }}>Delete</button>
+                <button className="btn btn-primary" type="button" onClick={() => {
+                    getTaskById(id)
+                    setShowModal(true)
+                }}>Update</button>
             </div>
         </div>
     )
