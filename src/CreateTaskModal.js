@@ -3,9 +3,8 @@ import {useState} from "react";
 
 export const CreateTaskModal = (props) => {
     const {createCard, statuses, priorities} = props
-
     const [show, setShow] = useState(false);
-    const [data, setData] = useState({status: statuses[0], priority: priorities[0]})
+    const [data, setData] = useState({name: '', status: 'todo', priority: 1})
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -16,8 +15,7 @@ export const CreateTaskModal = (props) => {
     }
 
     const handleChange = (e) => {
-        const value = e.target.value
-        setData({...data, [e.target.name]: value})
+        setData({...data, [e.target.name]: e.target.value})
     }
 
     return (

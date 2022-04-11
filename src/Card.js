@@ -1,9 +1,10 @@
 import {MAX_PRIORITY, MIN_PRIORITY} from "./const";
+import {DeleteTaskModal} from "./DeleteTaskModal";
+import {UpdateTaskModal} from "./UpdateTaskModal";
 
 export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decreasePriority, increasePriority,
-                        setShowModal, setShowModalDelete, getTaskById}) => {
+                         removeCard, updateCard, statuses, priorities }) => {
     const {id, name, description, status, priority} = task
-
     return (
         <div className="card">
             <div className="card-header">
@@ -14,14 +15,13 @@ export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decr
                 <div>
                     <p className="card-text">Priority: {priority}
                         <button className="btn btn-primary" type="submit" onClick={() => increasePriority(id)}
-                                disabled={priority === MAX_PRIORITY}>↑
+                                disabled={+priority === MAX_PRIORITY}>↑
                         </button>
                         <button className="btn btn-primary" type="submit" onClick={() => decreasePriority(id)}
-                                disabled={priority === MIN_PRIORITY}>↓
+                                disabled={+priority === MIN_PRIORITY}>↓
                         </button>
                     </p>
                 </div>
-
                 <p className="card-text">{description}</p>
                 <button className="btn btn-primary" type="submit" onClick={() => moveCardLeft(id)}
                         disabled={firstCol}>←
@@ -29,14 +29,8 @@ export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decr
                 <button className="btn btn-primary" type="submit" onClick={() => moveCardRight(id)}
                         disabled={lastCol}>→
                 </button>
-                <button className="btn btn-primary" type="button" onClick={() => {
-                    getTaskById(id)
-                    setShowModalDelete(true)
-                }}>Delete</button>
-                <button className="btn btn-primary" type="button" onClick={() => {
-                    getTaskById(id)
-                    setShowModal(true)
-                }}>Update</button>
+                <DeleteTaskModal task={task} removeCard={removeCard} />
+                <UpdateTaskModal task={task} updateCard={updateCard} statuses={statuses} priorities={priorities}/>
             </div>
         </div>
     )

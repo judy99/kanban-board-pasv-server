@@ -2,38 +2,14 @@ import 'bootstrap/dist/css/bootstrap.min.css'
 import {v4 as uuidv4} from 'uuid'
 import './App.css';
 import {useEffect, useState} from "react";
-import {MAX_PRIORITY, MIN_PRIORITY, BASE_URL} from "./const";
+import {MAX_PRIORITY, MIN_PRIORITY, BASE_URL, initialStatuses} from "./const";
 import {Column} from "./Column";
 import axios from "axios";
-import {InputCard} from "./InputCard";
-import {logDOM} from "@testing-library/react";
-import {ModalUpdate} from "./Modal";
-import {ModalDelete} from "./ModalDelete";
 import {CreateTaskModal} from "./CreateTaskModal";
-
-const initialStatuses = [
-    {
-        id: uuidv4(),
-        status: 'todo'
-    },
-    {
-        id: uuidv4(),
-        status: 'progress'
-    },
-    {
-        id: uuidv4(),
-        status: 'review'
-    },
-    {
-        id: uuidv4(),
-        status: 'done'
-    },
-]
 
 function App() {
     const [statuses, setStatuses] = useState(initialStatuses)
     const [tasks, setTasks] = useState([])
-
     const statusesArr = statuses.map(status => status.status)
     const [showModal, setShowModal] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
@@ -54,10 +30,9 @@ function App() {
         const newCard = {
             'id': uuidv4(),
             "name": name,
-            'status': status,
-            "priority": priority || 1
+            'status': status || statuses[0].status,
+            "priority": Number(priority) || 1
         }
-        console.log('creating card...')
         axios({
             method: 'POST',
             url: `${BASE_URL}/card`,
@@ -118,17 +93,20 @@ function App() {
         axios({
             method: 'DELETE',
             url: `${BASE_URL}/card/${id}`,
-        }).then(() => setTasks(updatedTasks));
+        }).then((response) => {
+            console.log('status: ', response.status)
+            setTasks(updatedTasks)
+        });
     }
 
-    const  updateCard = (id, text) => {
+    const  updateCard = (updTask) => {
         const updatedTasks = tasks.map(task => {
-            return (task.id === id) ? {...task, name: text} : task
+            return (task.id === updTask.id) ? {...task, ...updTask} : task
         })
-        const updatedTask = updatedTasks.find(task => task.id === id)
+        const updatedTask = updatedTasks.find(task => task.id === updTask.id)
         axios({
             method: 'PATCH',
-            url: `${BASE_URL}/card/${id}`,
+            url: `${BASE_URL}/card/${updTask.id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
     }
@@ -146,21 +124,22 @@ function App() {
     return (
         <div className="App container">
             <h1>Kanban Board</h1>
+
             <CreateTaskModal createCard={createCard} statuses={statuses} priorities={priorities}/>
-            {/*<InputCard createCard={createCard} statuses={statuses}/>*/}
+
             <div className="row align-items-start">
             {statuses.map((status, index) => {
-                return <Column key={status.id} status={status} tasks={tasks} moveCardLeft={moveCardLeft} moveCardRight={moveCardRight}
+                return <Column key={status.id} status={status} tasks={tasks}
+                               moveCardLeft={moveCardLeft} moveCardRight={moveCardRight}
                                lastCol={index === statuses.length - 1} firstCol={index === 0}
                                decreasePriority={decreasePriority} increasePriority={increasePriority}
                                removeCard={removeCard} updateCard={updateCard}
                                setShowModal={setShowModal} setShowModalDelete={setShowModalDelete}
                                getTaskById={getTaskById}
+                               statuses={statuses} priorities={priorities}
                                />
             })}
             </div>
-            <ModalUpdate showModal={showModal} setShowModal={setShowModal} currentTask={currentTask} updateCard={updateCard} />
-            <ModalDelete showModalDelete={showModalDelete} setShowModalDelete={setShowModalDelete} currentTask={currentTask} removeCard={removeCard} />
         </div>
     );
 }
