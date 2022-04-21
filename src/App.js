@@ -6,6 +6,7 @@ import {MAX_PRIORITY, MIN_PRIORITY, BASE_URL, initialStatuses} from "./const";
 import {Column} from "./Column";
 import axios from "axios";
 import {CreateTaskModal} from "./CreateTaskModal";
+import {Spinner} from "react-bootstrap";
 
 function App() {
     const [statuses, setStatuses] = useState([{id: uuidv4(), status: 'todo'},
@@ -15,15 +16,21 @@ function App() {
     const [showModal, setShowModal] = useState(false);
     const [showModalDelete, setShowModalDelete] = useState(false);
     const [currentTask, setCurrentTask] = useState({})
+    const [loader, setLoader] = useState(false)
+
 
     const priorities = Array.from({length: MAX_PRIORITY}, (_, i) => i + MIN_PRIORITY)
 
     const getCards = () => {
-        console.log('loading...')
+        setLoader(true)
         axios({
             method: 'GET',
             url: `${BASE_URL}/cards`
-        }).then(res => setTasks(res.data))
+        }).then(res => {
+            setTasks(res.data)
+            setLoader(false)
+        })
+            .catch(err => console.log(err))
     }
 
     const createCard = (data) => {
@@ -90,15 +97,13 @@ function App() {
     }
 
     const  updateCard = (updTask) => {
-        const updatedTasks = tasks.map(task => {
-            return (task.id === updTask.id) ? {...task, ...updTask} : task
-        })
-        const updatedTask = updatedTasks.find(task => task.id === updTask.id)
-        axios({
-            method: 'PATCH',
-            url: `${BASE_URL}/cards/${updTask.id}`,
-            data: updatedTask
-        }).then(() => setTasks(updatedTasks));
+        console.log('updTask', updTask)
+        // const updatedTasks = tasks.map(task => {
+        //     return (task.id === updTask.id) ? {...task, ...updTask} : task
+        // })
+        axios.patch(`${BASE_URL}/cards/${updTask._id}`, updTask)
+            .then(() => getCards())
+            .catch(err => console.log(err));
     }
 
     const removeCard = (id) => {
@@ -130,6 +135,12 @@ function App() {
 
             <CreateTaskModal createCard={createCard} statuses={statuses} priorities={priorities}/>
 
+            {loader && <div>
+                <Spinner animation="border" role="status">
+                    <span className="visually-hidden">Loading...</span>
+                </Spinner>
+                </div>
+            }
             <div className="row align-items-start">
             {statuses.map((status, index) => {
                 return <Column key={status.id} status={status} tasks={tasks}

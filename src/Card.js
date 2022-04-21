@@ -1,6 +1,7 @@
 import {MAX_PRIORITY, MIN_PRIORITY} from "./const";
 import {DeleteTaskModal} from "./DeleteTaskModal";
 import {UpdateTaskModal} from "./UpdateTaskModal";
+import {useEffect} from "react";
 
 export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decreasePriority, increasePriority,
                          removeCard, updateCard, statuses, priorities }) => {
