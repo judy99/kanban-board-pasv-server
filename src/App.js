@@ -8,7 +8,8 @@ import axios from "axios";
 import {CreateTaskModal} from "./CreateTaskModal";
 
 function App() {
-    const [statuses, setStatuses] = useState(initialStatuses)
+    const [statuses, setStatuses] = useState([{id: uuidv4(), status: 'todo'},
+        {id: uuidv4(), status: 'progress'}, {id: uuidv4(), status:'review'}, {id: uuidv4(), status: 'done'}])
     const [tasks, setTasks] = useState([])
     const statusesArr = statuses.map(status => status.status)
     const [showModal, setShowModal] = useState(false);
@@ -21,23 +22,23 @@ function App() {
         console.log('loading...')
         axios({
             method: 'GET',
-            url: `${BASE_URL}/card`
+            url: `${BASE_URL}/cards`
         }).then(res => setTasks(res.data))
     }
 
     const createCard = (data) => {
-        const {name, priority, status} = data
+        const {title, description, priority, status} = data
         const newCard = {
-            'id': uuidv4(),
-            "name": name,
+            'title': title,
+            'description': description || '',
             'status': status || statuses[0].status,
-            "priority": Number(priority) || 1
+            'priority': Number(priority) || 1
         }
-        axios({
-            method: 'POST',
-            url: `${BASE_URL}/card`,
-            data: newCard
-        }).then( () => setTasks([...tasks, newCard]));
+        axios.post(`${BASE_URL}/cards`, newCard)
+            .then((res) => {
+                getCards()
+            })
+            .catch(err => console.log(err));
     }
 
     const moveCardLeft = (id) => {
@@ -47,7 +48,7 @@ function App() {
         const updatedTask = updatedTasks.find(task => task.id === id)
         axios({
             method: 'PATCH',
-            url: `${BASE_URL}/card/${id}`,
+            url: `${BASE_URL}/cards/${id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
     }
@@ -59,7 +60,7 @@ function App() {
         const updatedTask = updatedTasks.find(task => task.id === id)
         axios({
             method: 'PATCH',
-            url: `${BASE_URL}/card/${id}`,
+            url: `${BASE_URL}/cards/${id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
     }
@@ -71,7 +72,7 @@ function App() {
         const updatedTask = updatedTasks.find(task => task.id === id)
         axios({
             method: 'PATCH',
-            url: `${BASE_URL}/card/${id}`,
+            url: `${BASE_URL}/cards/${id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
     }
@@ -83,7 +84,7 @@ function App() {
         const updatedTask = updatedTasks.find(task => task.id === id)
         axios({
             method: 'PATCH',
-            url: `${BASE_URL}/card/${id}`,
+            url: `${BASE_URL}/cards/${id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
     }
@@ -92,7 +93,7 @@ function App() {
         const updatedTasks = tasks.filter(task => task.id !== id)
         axios({
             method: 'DELETE',
-            url: `${BASE_URL}/card/${id}`,
+            url: `${BASE_URL}/cards/${id}`,
         }).then((response) => {
             console.log('status: ', response.status)
             setTasks(updatedTasks)
@@ -106,7 +107,7 @@ function App() {
         const updatedTask = updatedTasks.find(task => task.id === updTask.id)
         axios({
             method: 'PATCH',
-            url: `${BASE_URL}/card/${updTask.id}`,
+            url: `${BASE_URL}/cards/${updTask.id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
     }

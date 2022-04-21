@@ -4,12 +4,13 @@ import {useState} from "react";
 export const CreateTaskModal = (props) => {
     const {createCard, statuses, priorities} = props
     const [show, setShow] = useState(false);
-    const [data, setData] = useState({name: '', status: 'todo', priority: 1})
+    const [data, setData] = useState({title: '', status: 'todo', description: '',  priority: 1})
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
 
     const handleCreate = () => {
+        console.log('data in handleCreate', data )
         createCard(data)
         handleClose()
     }
@@ -36,8 +37,8 @@ export const CreateTaskModal = (props) => {
                                 <Form.Control sm="10"
                                               type="text"
                                               id="inputText"
-                                              name="name"
-                                              value={data.name}
+                                              name="title"
+                                              value={data.title}
                                               onChange={handleChange}
                                 />
                             </Col>

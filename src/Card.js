@@ -4,14 +4,14 @@ import {UpdateTaskModal} from "./UpdateTaskModal";
 
 export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decreasePriority, increasePriority,
                          removeCard, updateCard, statuses, priorities }) => {
-    const {id, name, description, status, priority} = task
+    const {id, title, description, status, priority} = task
     return (
         <div className="card">
             <div className="card-header">
                 {status}
             </div>
             <div className="card-body">
-                <h5 className="card-title">{name}</h5>
+                <h5 className="card-title">{title}</h5>
                 <div>
                     <p className="card-text">Priority: {priority}
                         <button className="btn btn-primary" type="submit" onClick={() => increasePriority(id)}

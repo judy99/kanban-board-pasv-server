@@ -29,7 +29,7 @@ export const DeleteTaskModal = ({task, removeCard}) => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Are you sure you want to delete card with text:</Form.Label><br/>
-                            <Form.Text>{task.name}</Form.Text>
+                            <Form.Text>{task.title}</Form.Text>
                         </Form.Group>
                     </Form>
                 </Modal.Body>

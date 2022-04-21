@@ -3,7 +3,7 @@ import {useState} from "react";
 import {Modal} from 'react-bootstrap'
 
 export const UpdateTaskModal = ({task, updateCard, statuses, priorities}) => {
-    const {id, name, status, priority} = task
+    const {id, title, description, status, priority} = task
 
     const [show, setShow] = useState(false)
     const handleClose = () => setShow(false);
@@ -28,7 +28,7 @@ export const UpdateTaskModal = ({task, updateCard, statuses, priorities}) => {
 
             <Modal show={show} onHide={handleClose}>
                 <Modal.Header closeButton>
-                    <Modal.Title>Update task: {taskToUpdate.name}</Modal.Title>
+                    <Modal.Title>Update task: {taskToUpdate.title}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Form>
@@ -37,7 +37,7 @@ export const UpdateTaskModal = ({task, updateCard, statuses, priorities}) => {
                             controlId="exampleForm.ControlTextarea1"
                         >
                             <Form.Label>Enter task:</Form.Label>
-                            <Form.Control type="text" name='name' value={taskToUpdate.name} onChange={handleChange}/>
+                            <Form.Control type="text" name='name' value={taskToUpdate.title} onChange={handleChange}/>
                         </Form.Group>
 
                         <Form.Group as={Row} className="mb-3">
