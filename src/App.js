@@ -89,17 +89,6 @@ function App() {
         }).then(() => setTasks(updatedTasks));
     }
 
-    const removeCard = (id) => {
-        const updatedTasks = tasks.filter(task => task.id !== id)
-        axios({
-            method: 'DELETE',
-            url: `${BASE_URL}/cards/${id}`,
-        }).then((response) => {
-            console.log('status: ', response.status)
-            setTasks(updatedTasks)
-        });
-    }
-
     const  updateCard = (updTask) => {
         const updatedTasks = tasks.map(task => {
             return (task.id === updTask.id) ? {...task, ...updTask} : task
@@ -110,6 +99,19 @@ function App() {
             url: `${BASE_URL}/cards/${updTask.id}`,
             data: updatedTask
         }).then(() => setTasks(updatedTasks));
+    }
+
+    const removeCard = (id) => {
+        // const updatedTasks = tasks.filter(task => task.id !== id)
+        axios({
+            method: 'DELETE',
+            url: `${BASE_URL}/cards/${id}`,
+        }).then((res) => {
+            // console.log('status: ', res.status)
+            // setTasks(updatedTasks)
+            getCards()
+        })
+            .catch(err => console.log('err while removing...' + err));
     }
 
     const getTaskById = (id) => {

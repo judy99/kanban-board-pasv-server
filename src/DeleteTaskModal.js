@@ -9,7 +9,7 @@ export const DeleteTaskModal = ({task, removeCard}) => {
     const handleShow = () => setShow(true);
 
     const handleSave = (e) => {
-        removeCard(task.id)
+        removeCard(task._id)
         handleClose()
     }
 
