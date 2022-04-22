@@ -124,7 +124,7 @@ function App() {
 
             <CreateTaskModal createCard={createCard} statuses={statuses} priorities={priorities}/>
 
-            {loader && <div>
+            {loader && <div style={{position: "absolute", top:"50%", left:"50%"}}>
                 <Spinner animation="border" role="status">
                     <span className="visually-hidden">Loading...</span>
                 </Spinner>
