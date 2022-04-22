@@ -56,7 +56,7 @@ export const UpdateTaskModal = ({task, updateCard, statuses, priorities}) => {
                             <Col sm="10">
                                 <Form.Select onChange={handleChange} name='status' defaultValue={status}>
                                     {statuses.map(status => {
-                                        return <option key={status.id} value={status.status}>{status.status}</option>
+                                        return <option key={status} value={status}>{status}</option>
                                     })}
                                 </Form.Select>
                             </Col>

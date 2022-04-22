@@ -1,7 +1,6 @@
 import {MAX_PRIORITY, MIN_PRIORITY} from "./const";
 import {DeleteTaskModal} from "./DeleteTaskModal";
 import {UpdateTaskModal} from "./UpdateTaskModal";
-import {useEffect} from "react";
 
 export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decreasePriority, increasePriority,
                          removeCard, updateCard, statuses, priorities }) => {
@@ -15,19 +14,19 @@ export const Card = ({task, moveCardLeft, moveCardRight, firstCol, lastCol, decr
                 <h5 className="card-title">{title}</h5>
                 <div>
                     <p className="card-text">Priority: {priority}
-                        <button className="btn btn-primary" type="submit" onClick={() => increasePriority(id)}
+                        <button className="btn btn-primary" type="submit" onClick={() => increasePriority(task)}
                                 disabled={+priority === MAX_PRIORITY}>↑
                         </button>
-                        <button className="btn btn-primary" type="submit" onClick={() => decreasePriority(id)}
+                        <button className="btn btn-primary" type="submit" onClick={() => decreasePriority(task)}
                                 disabled={+priority === MIN_PRIORITY}>↓
                         </button>
                     </p>
                 </div>
                 <p className="card-text">{description}</p>
-                <button className="btn btn-primary" type="submit" onClick={() => moveCardLeft(id)}
+                <button className="btn btn-primary" type="submit" onClick={() => moveCardLeft(task)}
                         disabled={firstCol}>←
                 </button>
-                <button className="btn btn-primary" type="submit" onClick={() => moveCardRight(id)}
+                <button className="btn btn-primary" type="submit" onClick={() => moveCardRight(task)}
                         disabled={lastCol}>→
                 </button>
                 <DeleteTaskModal task={task} removeCard={removeCard} />

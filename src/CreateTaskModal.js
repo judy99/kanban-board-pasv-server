@@ -4,7 +4,7 @@ import {useState} from "react";
 export const CreateTaskModal = (props) => {
     const {createCard, statuses, priorities} = props
     const [show, setShow] = useState(false);
-    const [data, setData] = useState({title: '', status: 'todo', description: '',  priority: 1})
+    const [data, setData] = useState({title: '', status: statuses[0], description: '',  priority: 1})
 
     const handleClose = () => setShow(false);
     const handleShow = () => setShow(true);
@@ -58,7 +58,7 @@ export const CreateTaskModal = (props) => {
                             <Col sm="10">
                                 <Form.Select onChange={handleChange} name='status'>
                                     {statuses.map(status => {
-                                        return <option key={status.id} value={status.status}>{status.status}</option>
+                                        return <option key={status} value={status}>{status}</option>
                                     })}
                                 </Form.Select>
                             </Col>

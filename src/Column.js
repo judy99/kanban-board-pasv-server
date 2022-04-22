@@ -5,8 +5,8 @@ export const Column = (props) => {
         removeCard, updateCard, statuses, priorities} = props
     return (
             <div className="col">
-                <h2>{status.status}</h2>
-                {tasks.filter(el => el.status === status.status).map((task, index) => {
+                <h2>{status}</h2>
+                {tasks.filter(el => el.status === status).map((task, index) => {
                     return <Card key={index} task={task}
                                  moveCardRight={moveCardRight} moveCardLeft={moveCardLeft}
                                  lastCol={lastCol} firstCol={firstCol}
